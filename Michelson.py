@@ -37,16 +37,19 @@ def fourierTransformInterferogram(x, y):
     return (wavelengths, frequencies, spectrum)
 
 
-def plotCombinedFigures(x, y, w, s, title="", left=400, right=800):
+def plotCombinedFigures(x, y, w, s,Title="", title="", left=400, right=800):
     """"
     On met l'interferogramme et le spectre sur la meme page.
     """
     fig, (axes, axesFFT) = plt.subplots(2, 1, figsize=(10, 7))
     axes.plot(x, y, '-')
-    axes.set_title("Interferogramme")
+    axes.set_title(Title)
+    axes.set_xlabel("Position en micron par rapport au zéro relatif [$\mu$m]")
+    axes.set_ylabel("Intensité lumineuse")
     axesFFT.plot(w * 1000, abs(s), '-')
     axesFFT.set_xlim(left=left, right=right)
     axesFFT.set_xlabel("Longueur d'onde [nm]")
+    axesFFT.set_ylabel("Intensité lumineuse")
     axesFFT.set_title(title)
     plt.show()
 
@@ -59,7 +62,7 @@ if __name__ == '__main__':
     (w, f, s) = fourierTransformInterferogram(x, y)
     df = f[1] - f[0]
     dl = 0.6328 * 0.6328 * df * 1000  # x 1000 pour nm
-    plotCombinedFigures(x, y, w, s, left=500 - 5 * dl, right=1000 - 5 * dl,
+    plotCombinedFigures(x, y, w, s, left=500 - 5 * dl, right=1000 - 5 * dl,Title="Interférogramme du laser He_Ne",
                         title="Spectre He-Ne, resolution resolution {0:0.2f} nm".format(dl))
 
     # Spectre de lumiere blanche
@@ -69,7 +72,7 @@ if __name__ == '__main__':
     (w, f, s) = fourierTransformInterferogram(x, y)
     df = f[1] - f[0]
     dl = 0.500 * 0.500 * df * 1000  # resolution autour de 0.500 µm en nm
-    plotCombinedFigures(x, y, w, s, left=0, right=2000,
+    plotCombinedFigures(x, y, w, s, left=0, right=2000,Title="Interférogramme de la lumière blanche",
                         title="Spectre lumiere blanche, resolution {0:0.2f} nm".format(dl))
 
     # spectre de la lumière au sodium pour la longueur d'onde
@@ -77,7 +80,7 @@ if __name__ == '__main__':
     (w, f, s) = fourierTransformInterferogram(x, y)
     df = f[1] - f[0]
     dl = 0.580 * 0.580 * df * 1000  # resolution autour de 0.500 µm en nm
-    plotCombinedFigures(x, y, w, s, left=0, right=2000,
+    plotCombinedFigures(x, y, w, s, left=0, right=2000,Title="Interférogramme de la lampe au sodium",
                         title="Spectre lampe au Sodium, resolution {0:f} nm".format(dl))
 
     # spectre de la lumière au sodium pour l'enveloppe
@@ -85,5 +88,5 @@ if __name__ == '__main__':
     (w, f, s) = fourierTransformInterferogram(x, y)
     df = f[1] - f[0]
     dl = 0.580 * 0.580 * df * 1000  # resolution autour de 0.500 µm en nm
-    plotCombinedFigures(x, y, w, s, left=0, right=2000,
+    plotCombinedFigures(x, y, w, s, left=0, right=2000,Title="Interférogramme de l'enveloppe du sodium",
                         title="Spectre enveloppe lampe Sodium, resolution {0:f} nm".format(dl))
